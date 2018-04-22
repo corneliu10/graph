@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1524421531 source:d:\poo\tema 2\main.cpp
+	<iostream>
+	"Matrice.h"
+	"Vector.h"
+	"Lista.h"
+
+1524418103 source:d:\poo\tema 2\matrice.cpp
+	<iostream>
+	"Matrice.h"
+
+1524417248 d:\poo\tema 2\matrice.h
+	<iostream>
+
+1524425123 source:d:\poo\tema 2\vector.cpp
+	<iostream>
+	"Vector.h"
+
+1524425075 d:\poo\tema 2\vector.h
+	<iostream>
+
+1524425158 source:d:\poo\tema 2\lista.cpp
+	<iostream>
+	"Lista.h"
+
+1524425134 d:\poo\tema 2\lista.h
+	"Vector.h"
+	<iostream>
+
+1524426434 source:d:\poo\tema 2\graf.cpp
+	<iostream>
+	"Graf.h"
+
+1524426490 d:\poo\tema 2\graf.h
+	"Matrice.h"
+	"Lista.h"
+
