@@ -3,18 +3,21 @@
 #include "Graf.h"
 
 /////GRAF
+Graf::Graf() {
+}
+
 Graf::Graf(int nrNoduri) : nrNoduri(nrNoduri) {
 }
 
 Graf::~Graf() {
-    
+
 }
 
 Vector Graf::DFS(int nod) {
     bool *visited = new bool[nrNoduri+1];
     Vector dfsRes;
 
-    for(int i=1; i<=nrNoduri; ++i)              
+    for(int i=1; i<=nrNoduri; ++i)
         visited[i] = false;
 
     DFSUtils(nod, visited, dfsRes);
@@ -54,8 +57,11 @@ bool Graf::conexitate() {
 
 
 /////GRAF NEORIENTAT
+GrafNeorientat::GrafNeorientat() : Graf() {
+}
+
 GrafNeorientat::GrafNeorientat(int nrNoduri, Lista list) : Graf(nrNoduri) {
-    listAdiacenta = list;  
+    listAdiacenta = list;
 }
 
 GrafNeorientat::~GrafNeorientat() {
@@ -69,7 +75,7 @@ istream& operator>>(istream& in, GrafNeorientat& other) {
 }
 
 ostream& operator<<(ostream& out,const GrafNeorientat& other) {
-    out<<other.nrNoduri<<"\n";
+    out<<"Nr. noduri: "<<other.nrNoduri<<"\n";
     out<<other.listAdiacenta;
 
     return out;
@@ -140,6 +146,10 @@ GrafNeorientat GrafNeorientat::operator+(const GrafNeorientat& other) {
 
 
 /////GRAF ORIENTAT
+GrafOrientat::GrafOrientat() : Graf() {
+
+}
+
 GrafOrientat::GrafOrientat(int nrNoduri, Matrice matrix) : Graf(nrNoduri) {
     matriceAdiacenta = matrix;
 }
@@ -155,7 +165,7 @@ istream& operator>>(istream& in, GrafOrientat& other) {
 }
 
 ostream& operator<<(ostream& out,const GrafOrientat& other) {
-    out<<other.nrNoduri<<"\n";
+    out<<"Nr. nodes: "<<other.nrNoduri<<"\n";
     out<<other.matriceAdiacenta;
 
     return out;

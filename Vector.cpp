@@ -3,7 +3,7 @@
 
 Vector::Vector() {
     dim = 0;
-    v = new int[dim];
+    //v = new int[dim];
 }
 
 Vector::Vector(int dim) : dim(dim) {
@@ -11,7 +11,8 @@ Vector::Vector(int dim) : dim(dim) {
 }
 
 Vector::~Vector() {
-    delete[] v;
+    if(dim!=0) delete[] v;
+    dim = 0;
 }
 
 Vector::Vector(const Vector& other) {

@@ -3,10 +3,14 @@
 
 Lista::Lista() {
     //list = new Vector;
+    listLength = 0;
 }
 
 Lista::~Lista() {
-    delete[] list;
+    if(listLength!=0)
+        delete[] list;
+
+    listLength =0;
 }
 
 Vector* Lista::getFirst() {
@@ -53,7 +57,7 @@ istream& operator>>(istream& in, Lista& other) {
 }
 
 ostream& operator<<(ostream& out, const Lista& other) {
-    out<<other.listLength<<"\n";
+    out<<"List length: "<<other.listLength<<"\n";
 
     for(int i=0; i<other.listLength; ++i)
         out<<other.list[i];

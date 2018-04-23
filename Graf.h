@@ -22,6 +22,7 @@ class Graf {
 
 class GrafNeorientat : public Graf {
     public:
+        GrafNeorientat();
         GrafNeorientat(int nrNoduri, Lista list);
         void BFS(int nod);
         friend istream& operator>>(istream& in, GrafNeorientat& other);
@@ -36,6 +37,7 @@ class GrafNeorientat : public Graf {
 
 class GrafOrientat : public Graf {
     public:
+        GrafOrientat();
         GrafOrientat(int nrNoduri, Matrice matrix);
         void BFS(int nod);
         friend istream& operator>>(istream& in, GrafOrientat& other);
