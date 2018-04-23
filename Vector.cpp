@@ -33,12 +33,30 @@ Vector& Vector::operator=(const Vector& other) {
     return *this;
 }
 
-int Vector::size() {
+int Vector::size() const {
     return dim;
 }
 
 void Vector::setSize(int size) {
     dim = size;
+}
+
+void Vector::push_back(int nr) {
+    int copy[dim+1];
+    for(int i=0; i<dim; i++)
+        copy[i] = v[i];
+
+    delete[] v;
+    v = new int[++dim];
+    for(int i=0; i<dim - 1; i++)
+        v[i] = copy[i];
+
+    v[dim - 1] = nr;
+}
+
+void Vector::clear() {
+    delete[] v;
+    dim = 0;
 }
 
 istream& operator>>(istream& in, Vector& other) {
@@ -61,4 +79,12 @@ ostream& operator<<(ostream& out, const Vector& other) {
     out<<"\n";
 
     return out;
+}
+
+int& Vector::operator[](int i) {
+    if(i < 0 || i >= dim) {
+        throw "Invalid access!";
+    }
+
+    return v[i];
 }

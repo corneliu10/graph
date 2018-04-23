@@ -9,6 +9,10 @@ Matrice::Matrice(int length) {
 
     for(int i=0; i<matrixLength; ++i)
         matrix[i] = new int[matrixLength];
+
+    for(int i=0; i<matrixLength; ++i)
+        for(int j=0; j<matrixLength; ++j)
+            matrix[i][j] = 0;
 }
 
 Matrice::~Matrice() {
@@ -16,6 +20,18 @@ Matrice::~Matrice() {
 }
 
 Matrice::Matrice() {
+}
+
+void Matrice::addEdge(int from, int to) {
+    matrix[from][to] = 1;
+}
+
+int Matrice::operator()(int x, int y) const {
+    if(x < 1 || x > matrixLength || y < 1 || y > matrixLength) {
+        throw "Invalid access!";
+    }
+
+    return matrix[x][y];
 }
 
 Matrice::Matrice(const Matrice& other) {

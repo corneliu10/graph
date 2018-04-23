@@ -2,7 +2,7 @@
 #include "Lista.h"
 
 Lista::Lista() {
-    list = new Vector;
+    //list = new Vector;
 }
 
 Lista::~Lista() {
@@ -13,12 +13,25 @@ Vector* Lista::getFirst() {
     return list;
 }
 
-int Lista::size() {
+int Lista::size() const {
     return listLength;
 }
 
 void Lista::setSize(int size) {
     listLength = size;
+}
+
+void Lista::push_back(Vector other) {
+    Vector copy[listLength+1];
+    for(int i=0; i<listLength; i++)
+        copy[i] = list[i];
+
+    delete[] list;
+    list = new Vector[++listLength];
+    for(int i=0; i<listLength - 1; i++)
+        list[i] = copy[i];
+
+    list[listLength - 1] = other;
 }
 
 Lista::Lista(const Lista& other) {
@@ -57,4 +70,12 @@ Lista& Lista::operator=(const Lista& other) {
         list[i] = other.list[i];
 
     return *this;
+}
+
+Vector& Lista::operator[](int i) const {
+    if(i < 0 || i >= listLength) {
+        throw "Invalid access!";
+    }
+
+    return list[i];
 }

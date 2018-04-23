@@ -9,11 +9,14 @@ class Vector {
         Vector(int dim);
         ~Vector();
         Vector(const Vector& other);
-        int size();
+        int size() const;
         void setSize(int size);
+        void push_back(int nr);
+        void clear();
         friend istream& operator>>(istream& in, Vector& other);
         friend ostream& operator<<(ostream& out, const Vector& other);
         Vector& operator=(const Vector& other);
+        int& operator[](int i);
     private:
         int *v;
         int dim;

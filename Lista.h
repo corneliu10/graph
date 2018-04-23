@@ -9,11 +9,13 @@ class Lista {
         ~Lista();
         Lista(const Lista& other);
         Vector* getFirst();
-        int size();
+        int size() const;
         void setSize(int size);
+        void push_back(Vector other);
         friend istream& operator>>(istream& in, Lista& other);
         friend ostream& operator<<(ostream& out, const Lista& other);
         Lista& operator=(const Lista& other);
+        Vector& operator[](int i) const;
     private:
         Vector *list;
         int listLength;
