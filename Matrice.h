@@ -8,6 +8,7 @@ class Matrice {
         Matrice();
         Matrice(int length);
         ~Matrice();
+        int size() const;
         Matrice(const Matrice& other);
         void addEdge(int from, int to);
         friend ostream& operator<<(ostream& out, const Matrice& other);

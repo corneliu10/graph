@@ -2,15 +2,15 @@
 #include "Lista.h"
 
 Lista::Lista() {
-    //list = new Vector;
+    list = new Vector;
     listLength = 0;
+    
 }
 
 Lista::~Lista() {
-    if(listLength!=0)
-        delete[] list;
-
-    listLength =0;
+    if(listLength > 0) delete[] list;
+    
+    listLength = 0;
 }
 
 Vector* Lista::getFirst() {
@@ -30,7 +30,7 @@ void Lista::push_back(Vector other) {
     for(int i=0; i<listLength; i++)
         copy[i] = list[i];
 
-    delete[] list;
+    if(listLength > 0) delete[] list;
     list = new Vector[++listLength];
     for(int i=0; i<listLength - 1; i++)
         list[i] = copy[i];
@@ -66,7 +66,7 @@ ostream& operator<<(ostream& out, const Lista& other) {
 }
 
 Lista& Lista::operator=(const Lista& other) {
-    delete[] list;
+    if(listLength > 0) delete[] list;
 
     listLength = other.listLength;
     list = new Vector[other.listLength];

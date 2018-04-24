@@ -16,10 +16,17 @@ Matrice::Matrice(int length) {
 }
 
 Matrice::~Matrice() {
-    delete[] matrix;
+    if(matrixLength > 0) delete[] matrix;
+    
+    matrixLength = 0;
 }
 
 Matrice::Matrice() {
+    matrixLength = 0;
+}
+
+int Matrice::size() const {
+    return matrixLength;
 }
 
 void Matrice::addEdge(int from, int to) {
@@ -27,7 +34,7 @@ void Matrice::addEdge(int from, int to) {
 }
 
 int Matrice::operator()(int x, int y) const {
-    if(x < 1 || x > matrixLength || y < 1 || y > matrixLength) {
+    if(x < 0 || x >= matrixLength || y < 0 || y >= matrixLength) {
         throw "Invalid access!";
     }
 
