@@ -5,49 +5,62 @@
 
 using namespace std;
 
+template <class T>
 class Graf {
     public:
         Graf();
         Graf(int nrNoduri);
         virtual ~Graf();
-        Vector DFS(int nod);
-        Lista componenteConexe();
+        Vector<T> DFS(int nod);
+        Lista<T> componenteConexe();
         bool conexitate();
         virtual void BFS(int nod) = 0;
+        virtual Vector<T> getDads(int nod) = 0;
 
     protected:
-        virtual void DFSUtils(int nod, bool *visited, Vector& dfsRes) = 0;
+        virtual void DFSUtils(int nod, bool *visited, Vector<T>& dfsRes) = 0;
+        virtual void getDadsUtils(int dad, int nod, bool *visited, Vector<T>& dads) = 0;
         int nrNoduri;
 };
 
-class GrafNeorientat : public Graf {
+template <class T>
+class GrafNeorientat : public Graf<T> {
     public:
         GrafNeorientat();
-        GrafNeorientat(int nrNoduri, Lista list);
+        GrafNeorientat(int nrNoduri, Lista<T> list);
         void BFS(int nod);
-        friend istream& operator>>(istream& in, GrafNeorientat& other);
-        friend ostream& operator<<(ostream& out, const GrafNeorientat& other);
-        GrafNeorientat& operator=(const GrafNeorientat& other);
-        GrafNeorientat operator+(const GrafNeorientat& other);
+        template <class U> friend istream& operator>>(istream& in, GrafNeorientat<U>& other);
+        template <class U> friend ostream& operator<<(ostream& out, const GrafNeorientat<U>& other);
+        bool operator==(const GrafNeorientat<T>& other);
+        bool operator!=(const GrafNeorientat<T>& other);
+        GrafNeorientat<T>& operator=(const GrafNeorientat<T>& other);
+        GrafNeorientat<T> operator+(const GrafNeorientat<T>& other);
+        //Vector<T> getDads(int nod);
         ~GrafNeorientat();
     private:
-        void DFSUtils(int nod, bool *visited, Vector& dfsRes);
-        Lista listAdiacenta;
+        void getDadsUtils(int dad, int nod, bool *visited, Vector<T>& dads);
+        void DFSUtils(int nod, bool *visited, Vector<T>& dfsRes);
+        Lista<T> listAdiacenta;
 };
 
-class GrafOrientat : public Graf {
+template <class T>
+class GrafOrientat : public Graf<T> {
     public:
         GrafOrientat();
-        GrafOrientat(int nrNoduri, Matrice matrix);
+        GrafOrientat(int nrNoduri, Matrice<T> matrix);
         void BFS(int nod);
-        friend istream& operator>>(istream& in, GrafOrientat& other);
-        friend ostream& operator<<(ostream& out, const GrafOrientat& other);
-        GrafOrientat& operator=(const GrafOrientat& other);
-        GrafOrientat operator+(const GrafOrientat& other);
+        template <class U> friend istream& operator>>(istream& in, GrafOrientat<U>& other);
+        template <class U> friend ostream& operator<<(ostream& out, const GrafOrientat<U>& other);
+        bool operator==(const GrafOrientat<T>& other);
+        bool operator!=(const GrafOrientat<T>& other);
+        GrafOrientat<T>& operator=(const GrafOrientat<T>& other);
+        GrafOrientat<T> operator+(const GrafOrientat<T>& other);
+        Vector<T> getDads(int nod);
         ~GrafOrientat();
     private:
-        void DFSUtils(int nod, bool *visited, Vector& dfsRes);
-        Matrice matriceAdiacenta;
+        void getDadsUtils(int dad, int nod, bool *visited, Vector<T>& dads);
+        void DFSUtils(int nod, bool *visited, Vector<T>& dfsRes);
+        Matrice<T> matriceAdiacenta;
 };
 
 #endif // GRAF_H

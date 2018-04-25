@@ -1,69 +1,79 @@
 #include <iostream>
 #include "Vector.h"
 
-Vector::Vector() {
+template <class T>
+Vector<T>::Vector() {
     dim = 0;
     //v = new int[dim];
 }
 
-Vector::Vector(int dim) : dim(dim) {
-    v = new int[dim];
+template <class T>
+Vector<T>::Vector(int dim) : dim(dim) {
+    v = new T[dim];
 }
 
-Vector::~Vector() {
+template <class T>
+Vector<T>::~Vector() {
     if(dim!=0 && v!=NULL) delete[] v;
     dim = 0;
 }
 
-Vector::Vector(const Vector& other) {
+template <class T>
+Vector<T>::Vector(const Vector<T>& other) {
     dim = other.dim;
 
-    v = new int[dim];
+    v = new T[dim];
     for(int i=0; i<dim; ++i)
         v[i] = other.v[i];
 }
 
-Vector& Vector::operator=(const Vector& other) {
+template <class T>
+Vector<T>& Vector<T>::operator=(const Vector<T>& other) {
     if(dim > 0) delete[] v;
     dim = other.dim;
 
-    v = new int[dim];
+    v = new T[dim];
     for(int i=0; i<dim; ++i)
         v[i] = other.v[i];
 
     return *this;
 }
 
-int Vector::size() const {
+template <class T>
+int Vector<T>::size() const {
     return dim;
 }
 
-void Vector::setSize(int size) {
+template <class T>
+void Vector<T>::setSize(int size) {
     dim = size;
 }
 
-void Vector::push_back(int nr) {
-    int copy[dim+1];
+template <class T>
+void Vector<T>::push_back(T nr) {
+    T copy[dim+1];
     for(int i=0; i<dim; i++)
         copy[i] = v[i];
 
     if(dim > 0) delete[] v;
-    v = new int[++dim];
+    v = new T[++dim];
     for(int i=0; i<dim - 1; i++)
         v[i] = copy[i];
 
     v[dim - 1] = nr;
 }
 
-void Vector::clear() {
+template <class T>
+void Vector<T>::clear() {
     if(dim > 0) delete[] v;
     dim = 0;
 }
 
-istream& operator>>(istream& in, Vector& other) {
+template <class T>
+istream& operator>>(istream& in, Vector<T>& other) {
     in>>other.dim;
 
-    other.v = new int[other.dim];
+    other.v = new T[other.dim];
 
     for(int i=0; i<other.dim; ++i)
         in>>other.v[i];
@@ -71,7 +81,8 @@ istream& operator>>(istream& in, Vector& other) {
     return in;
 }
 
-ostream& operator<<(ostream& out, const Vector& other) {
+template <class T>
+ostream& operator<<(ostream& out, const Vector<T>& other) {
     out<<other.dim<<": ";
 
     for(int i=0; i<other.dim; ++i)
@@ -82,7 +93,8 @@ ostream& operator<<(ostream& out, const Vector& other) {
     return out;
 }
 
-int& Vector::operator[](int i) {
+template <class T>
+T& Vector<T>::operator[](int i) {
     if(i < 0 || i >= dim) {
         throw "Invalid access!";
     }

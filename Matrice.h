@@ -3,20 +3,21 @@
 #include <iostream>
 using namespace std;
 
+template <class T>
 class Matrice {
     public:
         Matrice();
         Matrice(int length);
         ~Matrice();
         int size() const;
-        Matrice(const Matrice& other);
+        Matrice(const Matrice<T>& other);
         void addEdge(int from, int to);
-        friend ostream& operator<<(ostream& out, const Matrice& other);
-        friend istream& operator>>(istream& in, Matrice& other);
-        Matrice& operator= (const Matrice& other);
+        template <class U> friend ostream& operator<<(ostream& out, const Matrice<U>& other);
+        template <class U> friend istream& operator>>(istream& in, Matrice<U>& other);
+        Matrice& operator= (const Matrice<T>& other);
         int operator()(int x, int y) const;
     private:
-        int **matrix;
+        T **matrix;
         int matrixLength;
 };
 

@@ -3,19 +3,23 @@
 #include "Graf.h"
 
 /////GRAF
-Graf::Graf() {
+template <class T>
+Graf<T>::Graf() {
 }
 
-Graf::Graf(int nrNoduri) : nrNoduri(nrNoduri) {
+template <class T>
+Graf<T>::Graf(int nrNoduri) : nrNoduri(nrNoduri) {
 }
 
-Graf::~Graf() {
+template <class T>
+Graf<T>::~Graf() {
 
 }
 
-Vector Graf::DFS(int nod) {
+template <class T>
+Vector<T> Graf<T>::DFS(int nod) {
     bool *visited = new bool[nrNoduri+1];
-    Vector dfsRes;
+    Vector<T> dfsRes;
 
     for(int i=0; i<=nrNoduri; ++i)
         visited[i] = false;
@@ -27,9 +31,10 @@ Vector Graf::DFS(int nod) {
     return dfsRes;
 }
 
-Lista Graf::componenteConexe() {
-    Lista compConexe;
-    Vector comp;
+template <class T>
+Lista<T> Graf<T>::componenteConexe() {
+    Lista<T> compConexe;
+    Vector<T> comp;
     bool *visited = new bool[nrNoduri + 1];
     for(int i=0; i<=nrNoduri; ++i)
         visited[i] = false;
@@ -42,13 +47,14 @@ Lista Graf::componenteConexe() {
             comp.clear();
             cout<<"\n";
         }
-    
+
     delete[] visited;
     return compConexe;
 }
 
-bool Graf::conexitate() {
-    Lista compConexe = componenteConexe();
+template <class T>
+bool Graf<T>::conexitate() {
+    Lista<T> compConexe = componenteConexe();
     if(compConexe.size() > 1)
         return false;
     else
@@ -58,38 +64,67 @@ bool Graf::conexitate() {
 
 
 /////GRAF NEORIENTAT
-GrafNeorientat::GrafNeorientat() : Graf() {
+template <class T>
+GrafNeorientat<T>::GrafNeorientat() : Graf<T>() {
 }
 
-GrafNeorientat::GrafNeorientat(int nrNoduri, Lista list) : Graf(nrNoduri) {
+template <class T>
+GrafNeorientat<T>::GrafNeorientat(int nrNoduri, Lista<T> list) : Graf<T>(nrNoduri) {
     listAdiacenta = list;
 }
 
-GrafNeorientat::~GrafNeorientat() {
+template <class T>
+GrafNeorientat<T>::~GrafNeorientat() {
 }
 
-istream& operator>>(istream& in, GrafNeorientat& other) {
+template <class T>
+istream& operator>>(istream& in, GrafNeorientat<T>& other) {
     in>>other.listAdiacenta;
     other.nrNoduri = other.listAdiacenta.size();
 
     return in;
 }
 
-ostream& operator<<(ostream& out,const GrafNeorientat& other) {
+template <class T>
+ostream& operator<<(ostream& out,const GrafNeorientat<T>& other) {
     //out<<"Nr. noduri: "<<other.nrNoduri<<"\n";
     out<<other.listAdiacenta;
 
     return out;
 }
 
-GrafNeorientat& GrafNeorientat::operator=(const GrafNeorientat& other) {
-    nrNoduri = other.nrNoduri;
+template <class T>
+GrafNeorientat<T>& GrafNeorientat<T>::operator=(const GrafNeorientat<T>& other) {
+    this->nrNoduri = other.nrNoduri;
     listAdiacenta = other.listAdiacenta;
 
     return *this;
 }
 
-void GrafNeorientat::DFSUtils(int nod, bool *visited, Vector& dfsRes) {
+template <class T>
+bool GrafNeorientat<T>::operator==(const GrafNeorientat<T>& other) {
+    Matrice<T> matrix(this->nrNoduri);
+
+    for(int i=0; i<listAdiacenta.size(); ++i)
+        for(int j=0; j<listAdiacenta[i].size(); ++j)
+            matrix.addEdge(i, (listAdiacenta[i])[j]);
+
+    for(int i=0; i<other.listAdiacenta.size(); ++i)
+        for(int j=0; j<other.listAdiacenta[i].size(); ++j)
+            if(matrix(i, (other.listAdiacenta[i])[j]) == 0) return false;
+
+    return true;
+}
+
+template <class T>
+bool GrafNeorientat<T>::operator!=(const GrafNeorientat<T>& other) {
+    if(*this == other) return 0;
+
+    return 1;
+}
+
+template <class T>
+void GrafNeorientat<T>::DFSUtils(int nod, bool *visited, Vector<T>& dfsRes) {
     visited[nod] = true;
 
     cout<<nod<<" ";
@@ -100,11 +135,12 @@ void GrafNeorientat::DFSUtils(int nod, bool *visited, Vector& dfsRes) {
             DFSUtils((listAdiacenta[nod])[i], visited, dfsRes);
 }
 
-void GrafNeorientat::BFS(int nod) {
+template <class T>
+void GrafNeorientat<T>::BFS(int nod) {
     int queue[10001],front=0,back=0; //TODO: implement queue class
-    bool *visited = new bool[nrNoduri + 1];
+    bool *visited = new bool[this->nrNoduri + 1];
 
-    for(int i=0; i<=nrNoduri; ++i)
+    for(int i=0; i<=this->nrNoduri; ++i)
         visited[i] = false;
 
     queue[back++] = nod;
@@ -127,9 +163,10 @@ void GrafNeorientat::BFS(int nod) {
     delete[] visited;
 }
 
-GrafNeorientat GrafNeorientat::operator+(const GrafNeorientat& other) {
-    Lista listCombined = listAdiacenta;
-    Matrice matrix(nrNoduri);
+template <class T>
+GrafNeorientat<T> GrafNeorientat<T>::operator+(const GrafNeorientat<T>& other) {
+    Lista<T> listCombined = listAdiacenta;
+    Matrice<T> matrix(this->nrNoduri);
 
     for(int i=0; i<listAdiacenta.size(); ++i)
         for(int j=0; j<listAdiacenta[i].size(); ++j)
@@ -142,61 +179,69 @@ GrafNeorientat GrafNeorientat::operator+(const GrafNeorientat& other) {
                 matrix.addEdge(i, (other.listAdiacenta[i])[j]);
             }
 
-    return GrafNeorientat(nrNoduri, listCombined);
+    return GrafNeorientat(this->nrNoduri, listCombined);
 }
 
 
 
 
 /////GRAF ORIENTAT
-GrafOrientat::GrafOrientat() : Graf() {
+template <class T>
+GrafOrientat<T>::GrafOrientat() : Graf<T>() {
 
 }
 
-GrafOrientat::GrafOrientat(int nrNoduri, Matrice matrix) : Graf(nrNoduri) {
+template <class T>
+GrafOrientat<T>::GrafOrientat(int nrNoduri, Matrice<T> matrix) : Graf<T>(nrNoduri) {
     matriceAdiacenta = matrix;
 }
 
-GrafOrientat::~GrafOrientat() {
+template <class T>
+GrafOrientat<T>::~GrafOrientat() {
 }
 
-istream& operator>>(istream& in, GrafOrientat& other) {
+template <class T>
+istream& operator>>(istream& in, GrafOrientat<T>& other) {
     in>>other.matriceAdiacenta;
     other.nrNoduri = other.matriceAdiacenta.size();
-    
+
     return in;
 }
 
-ostream& operator<<(ostream& out,const GrafOrientat& other) {
+template <class T>
+ostream& operator<<(ostream& out,const GrafOrientat<T>& other) {
     out<<"Nr. nodes: "<<other.nrNoduri<<"\n";
     out<<other.matriceAdiacenta;
 
     return out;
 }
 
-GrafOrientat& GrafOrientat::operator=(const GrafOrientat& other) {
-    nrNoduri = other.nrNoduri;
+template <class T>
+GrafOrientat<T>& GrafOrientat<T>::operator=(const GrafOrientat<T>& other) {
+    this->nrNoduri = other.nrNoduri;
     matriceAdiacenta = other.matriceAdiacenta;
 
     return *this;
 }
 
-void GrafOrientat::DFSUtils(int nod, bool *visited, Vector& dfsRes) {
+template <class T>
+void GrafOrientat<T>::DFSUtils(int nod, bool *visited, Vector<T>& dfsRes) {
     visited[nod] = true;
 
     cout<<nod<<" ";
     dfsRes.push_back(nod);
 
-    for(int i=0; i<nrNoduri; ++i)
+    for(int i=0; i<this->nrNoduri; ++i)
         if(matriceAdiacenta(nod, i)==1 && !visited[i])
             DFSUtils(i, visited, dfsRes);
 }
 
-void GrafOrientat::BFS(int nod) {
+template <class T>
+void GrafOrientat<T>::BFS(int nod) {
     int queue[10001],front=0,back=0; //TODO: implement queue class
-    bool visited[nrNoduri + 1];
+    bool visited[this->nrNoduri + 1];
 
-    for(int i=0; i<=nrNoduri; ++i)
+    for(int i=0; i<=this->nrNoduri; ++i)
         visited[i] = false;
 
     queue[back++] = nod;
@@ -207,7 +252,7 @@ void GrafOrientat::BFS(int nod) {
 
         cout<<nod<<" ";
         visited[nod] = true;
-        for(int i=0; i<nrNoduri; ++i)
+        for(int i=0; i<this->nrNoduri; ++i)
             if(matriceAdiacenta(nod, i)==1 && !visited[i]) {
                 queue[back] = i;
                 back = (back + 1) % 10000;
@@ -217,19 +262,58 @@ void GrafOrientat::BFS(int nod) {
     cout<<"\n";
 }
 
-GrafOrientat GrafOrientat::operator+(const GrafOrientat& other) {
-    Matrice finalMatrix(nrNoduri);
+template <class T>
+GrafOrientat<T> GrafOrientat<T>::operator+(const GrafOrientat<T>& other) {
+    Matrice<T> finalMatrix(this->nrNoduri);
 
-    for(int i=0; i<nrNoduri; ++i)
-        for(int j=0; j<nrNoduri; ++j)
+    for(int i=0; i<this->nrNoduri; ++i)
+        for(int j=0; j<this->nrNoduri; ++j)
             if(this->matriceAdiacenta(i, j)==1)
                 finalMatrix.addEdge(i, j);
 
-    for(int i=0; i<nrNoduri; ++i)
-        for(int j=0; j<nrNoduri; ++j)
+    for(int i=0; i<this->nrNoduri; ++i)
+        for(int j=0; j<this->nrNoduri; ++j)
             if(other.matriceAdiacenta(i, j)==1)
                 finalMatrix.addEdge(i, j);
 
-    return GrafOrientat(nrNoduri, finalMatrix);
+    return GrafOrientat(this->nrNoduri, finalMatrix);
 }
 
+template <class T>
+bool GrafOrientat<T>::operator==(const GrafOrientat<T>& other) {
+    for(int i=0; i<matriceAdiacenta.size(); ++i)
+        for(int j=0; j<matriceAdiacenta.size(); ++j)
+            if(this->matriceAdiacenta(i, j) != other.matriceAdiacenta(i, j) ) return false;
+
+    return true;
+}
+
+template <class T>
+bool GrafOrientat<T>::operator!=(const GrafOrientat<T>& other) {
+    if(*this == other) return 0;
+
+    return 1;
+}
+
+template <class T>
+void GrafOrientat<T>::getDadsUtils(int dad, int nod, bool *visited, Vector<T>& dads) {
+    visited[nod] = true;
+    dads[nod] = dad;
+
+    for(int i=0; i<this->nrNoduri; ++i)
+        if(matriceAdiacenta(nod, i)==1 && !visited[i])
+            getDadsUtils(nod, i, visited, dads);
+}
+
+template <class T>
+Vector<T> GrafOrientat<T>::getDads(int nod) {
+    bool *visited = new bool[this->nrNoduri+1];
+    Vector<T> dads(this->nrNoduri);
+
+    for(int i=0; i<=this->nrNoduri; ++i)
+        visited[i] = false;
+
+    delete[] visited;
+    getDadsUtils(-1, nod, visited, dads);
+    return dads;
+}

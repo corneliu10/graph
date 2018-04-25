@@ -1,62 +1,71 @@
 #include <iostream>
 #include "Lista.h"
 
-Lista::Lista() {
-    list = new Vector;
+template <class T>
+Lista<T>::Lista() {
+    list = new Vector<T>;
     listLength = 0;
-    
+
 }
 
-Lista::~Lista() {
+template <class T>
+Lista<T>::~Lista() {
     if(listLength > 0) delete[] list;
-    
+
     listLength = 0;
 }
 
-Vector* Lista::getFirst() {
+template <class T>
+Vector<T>* Lista<T>::getFirst() {
     return list;
 }
 
-int Lista::size() const {
+template <class T>
+int Lista<T>::size() const {
     return listLength;
 }
 
-void Lista::setSize(int size) {
+template <class T>
+void Lista<T>::setSize(int size) {
     listLength = size;
 }
 
-void Lista::push_back(Vector other) {
-    Vector copy[listLength+1];
+template <class T>
+void Lista<T>::push_back(Vector<T> other) {
+    Vector<T> copy[listLength+1];
     for(int i=0; i<listLength; i++)
         copy[i] = list[i];
 
     if(listLength > 0) delete[] list;
-    list = new Vector[++listLength];
+    list = new Vector<T>[++listLength];
     for(int i=0; i<listLength - 1; i++)
         list[i] = copy[i];
 
     list[listLength - 1] = other;
 }
 
-Lista::Lista(const Lista& other) {
+template <class T>
+Lista<T>::Lista(const Lista<T>& other) {
     listLength = other.listLength;
 
-    list = new Vector[listLength];
+    list = new Vector<T>[listLength];
     for(int i=0; i<listLength; ++i)
         list[i] = other.list[i];
 }
 
-istream& operator>>(istream& in, Lista& other) {
+template <class T>
+istream& operator>>(istream& in, Lista<T>& other) {
     in>>other.listLength;
 
-    other.list = new Vector[other.listLength];
+    other.list = new Vector<T>[other.listLength];
     for(int i=0; i<other.listLength; ++i)
         in>>other.list[i];
 
     return in;
 }
 
-ostream& operator<<(ostream& out, const Lista& other) {
+template <class T>
+ostream& operator<<(ostream& out, const Lista<T>& other) {
     out<<"List length: "<<other.listLength<<"\n";
 
     for(int i=0; i<other.listLength; ++i)
@@ -65,18 +74,20 @@ ostream& operator<<(ostream& out, const Lista& other) {
     return out;
 }
 
-Lista& Lista::operator=(const Lista& other) {
+template <class T>
+Lista<T>& Lista<T>::operator=(const Lista<T>& other) {
     if(listLength > 0) delete[] list;
 
     listLength = other.listLength;
-    list = new Vector[other.listLength];
+    list = new Vector<T>[other.listLength];
     for(int i=0; i<listLength; ++i)
         list[i] = other.list[i];
 
     return *this;
 }
 
-Vector& Lista::operator[](int i) const {
+template <class T>
+Vector<T>& Lista<T>::operator[](int i) const {
     if(i < 0 || i >= listLength) {
         throw "Invalid access!";
     }
