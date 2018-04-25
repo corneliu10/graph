@@ -17,6 +17,21 @@ Graf<T>::~Graf() {
 }
 
 template <class T>
+Vector<T> Graf<T>::getDads(int nod) {
+    bool *visited = new bool[this->nrNoduri+1];
+    Vector<T> dads(this->nrNoduri);
+
+    for(int i=0; i<this->nrNoduri; ++i) {
+        dads[i] = -1;
+        visited[i] = false;
+    }
+
+    getDadsUtils(-1, nod, visited, dads);
+    delete[] visited;
+    return dads;
+}
+
+template <class T>
 Vector<T> Graf<T>::DFS(int nod) {
     bool *visited = new bool[nrNoduri+1];
     Vector<T> dfsRes;
@@ -182,6 +197,15 @@ GrafNeorientat<T> GrafNeorientat<T>::operator+(const GrafNeorientat<T>& other) {
     return GrafNeorientat(this->nrNoduri, listCombined);
 }
 
+template <class T>
+void GrafNeorientat<T>::getDadsUtils(int dad, int nod, bool *visited, Vector<T>& dads) {
+    visited[nod] = true;
+    dads[nod] = dad;
+
+    for(int i=0; i<this->listAdiacenta[nod].size(); ++i)
+        if(!visited[(listAdiacenta[nod])[i]])
+            getDadsUtils(nod, (listAdiacenta[nod])[i], visited, dads);
+}
 
 
 
@@ -303,17 +327,4 @@ void GrafOrientat<T>::getDadsUtils(int dad, int nod, bool *visited, Vector<T>& d
     for(int i=0; i<this->nrNoduri; ++i)
         if(matriceAdiacenta(nod, i)==1 && !visited[i])
             getDadsUtils(nod, i, visited, dads);
-}
-
-template <class T>
-Vector<T> GrafOrientat<T>::getDads(int nod) {
-    bool *visited = new bool[this->nrNoduri+1];
-    Vector<T> dads(this->nrNoduri);
-
-    for(int i=0; i<=this->nrNoduri; ++i)
-        visited[i] = false;
-
-    delete[] visited;
-    getDadsUtils(-1, nod, visited, dads);
-    return dads;
 }

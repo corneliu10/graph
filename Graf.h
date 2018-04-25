@@ -15,7 +15,7 @@ class Graf {
         Lista<T> componenteConexe();
         bool conexitate();
         virtual void BFS(int nod) = 0;
-        virtual Vector<T> getDads(int nod) = 0;
+        Vector<T> getDads(int nod);
 
     protected:
         virtual void DFSUtils(int nod, bool *visited, Vector<T>& dfsRes) = 0;
@@ -35,7 +35,6 @@ class GrafNeorientat : public Graf<T> {
         bool operator!=(const GrafNeorientat<T>& other);
         GrafNeorientat<T>& operator=(const GrafNeorientat<T>& other);
         GrafNeorientat<T> operator+(const GrafNeorientat<T>& other);
-        //Vector<T> getDads(int nod);
         ~GrafNeorientat();
     private:
         void getDadsUtils(int dad, int nod, bool *visited, Vector<T>& dads);
@@ -55,7 +54,6 @@ class GrafOrientat : public Graf<T> {
         bool operator!=(const GrafOrientat<T>& other);
         GrafOrientat<T>& operator=(const GrafOrientat<T>& other);
         GrafOrientat<T> operator+(const GrafOrientat<T>& other);
-        Vector<T> getDads(int nod);
         ~GrafOrientat();
     private:
         void getDadsUtils(int dad, int nod, bool *visited, Vector<T>& dads);

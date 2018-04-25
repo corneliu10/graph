@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-    ifstream f("data.in");
+    ifstream f("D:\\POO\\Tema 2\\data.in");
 
     Matrice<int> M;
     f>>M;
@@ -44,6 +44,8 @@ int main()
 
     cout<<(G == G) <<"\n\n";
 
+    cout<<G.getDads(0);
+
     GrafOrientat<int> G2(M.size(), M),G3;
     cout<<G2<<"\n";
     g = &G2;
@@ -61,6 +63,8 @@ int main()
     cout<<G3+G2<<"\n";
 
     cout<<(G2 == G2)<<"\n";
+
+    cout<<G2.getDads(0);
 
     return 0;
 }
