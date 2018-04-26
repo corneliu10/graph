@@ -46,7 +46,7 @@ template <class T>
 class GrafOrientat : public Graf<T> {
     public:
         GrafOrientat();
-        GrafOrientat(int nrNoduri, Matrice<T> matrix);
+        GrafOrientat(int nrNoduri, Matrice<bool> matrix);
         void BFS(int nod);
         template <class U> friend istream& operator>>(istream& in, GrafOrientat<U>& other);
         template <class U> friend ostream& operator<<(ostream& out, const GrafOrientat<U>& other);
@@ -58,7 +58,7 @@ class GrafOrientat : public Graf<T> {
     private:
         void getDadsUtils(int dad, int nod, bool *visited, Vector<T>& dads);
         void DFSUtils(int nod, bool *visited, Vector<T>& dfsRes);
-        Matrice<T> matriceAdiacenta;
+        Matrice<bool> matriceAdiacenta;
 };
 
 #endif // GRAF_H

@@ -55,6 +55,7 @@ Lista<T>::Lista(const Lista<T>& other) {
 
 template <class T>
 istream& operator>>(istream& in, Lista<T>& other) {
+    if(other.listLength > 0) delete[] other.list;
     in>>other.listLength;
 
     other.list = new Vector<T>[other.listLength];

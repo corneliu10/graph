@@ -11,7 +11,7 @@ int main()
 {
     ifstream f("D:\\POO\\Tema 2\\data.in");
 
-    Matrice<int> M;
+    Matrice<bool> M;
     f>>M;
     cout<<M<<"\n";
 
@@ -44,7 +44,7 @@ int main()
 
     cout<<(G == G) <<"\n\n";
 
-    cout<<G.getDads(0);
+    cout<<"Vector tati: "<<G.getDads(0)<<"\n";
 
     GrafOrientat<int> G2(M.size(), M),G3;
     cout<<G2<<"\n";
@@ -64,7 +64,7 @@ int main()
 
     cout<<(G2 == G2)<<"\n";
 
-    cout<<G2.getDads(0);
+    cout<<"Vector tati: "<<G2.getDads(0)<<"\n";
 
     return 0;
 }

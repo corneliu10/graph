@@ -216,7 +216,7 @@ GrafOrientat<T>::GrafOrientat() : Graf<T>() {
 }
 
 template <class T>
-GrafOrientat<T>::GrafOrientat(int nrNoduri, Matrice<T> matrix) : Graf<T>(nrNoduri) {
+GrafOrientat<T>::GrafOrientat(int nrNoduri, Matrice<bool> matrix) : Graf<T>(nrNoduri) {
     matriceAdiacenta = matrix;
 }
 
@@ -288,7 +288,7 @@ void GrafOrientat<T>::BFS(int nod) {
 
 template <class T>
 GrafOrientat<T> GrafOrientat<T>::operator+(const GrafOrientat<T>& other) {
-    Matrice<T> finalMatrix(this->nrNoduri);
+    Matrice<bool> finalMatrix(this->nrNoduri);
 
     for(int i=0; i<this->nrNoduri; ++i)
         for(int j=0; j<this->nrNoduri; ++j)

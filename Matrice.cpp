@@ -18,7 +18,12 @@ Matrice<T>::Matrice(int length) {
 
 template <class T>
 Matrice<T>::~Matrice() {
-    if(matrixLength > 0) delete[] matrix;
+    if(matrixLength > 0) {
+        for(int i=0;i<matrixLength;++i)
+            delete[] matrix[i];
+
+        delete[] matrix;
+    }
 
     matrixLength = 0;
 }
@@ -65,6 +70,12 @@ template <class T>
 istream& operator>>(istream& in, Matrice<T>& other) {
     int matrixLength;
 
+    if(other.matrixLength > 0) {
+        for(int i=0;i<other.matrixLength;++i)
+            delete[] other.matrix[i];
+
+        delete[] other.matrix;
+    }
     in>>matrixLength;
     other.matrixLength = matrixLength;
     other.matrix = new T*[matrixLength];

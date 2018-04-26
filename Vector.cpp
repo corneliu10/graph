@@ -71,6 +71,8 @@ void Vector<T>::clear() {
 
 template <class T>
 istream& operator>>(istream& in, Vector<T>& other) {
+    if(other.dim > 0) delete[] other.v;
+
     in>>other.dim;
 
     other.v = new T[other.dim];
